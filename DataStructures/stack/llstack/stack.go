@@ -33,7 +33,7 @@ func (l *Stack) Push(d DataType) {
 
 func (l *Stack) Pop() DataType {
 	if l.IsEmpty() {
-		return ""
+		return nil
 	} else {
 		l.length--
 		temp := l.head.data

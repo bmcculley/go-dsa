@@ -1,8 +1,8 @@
 package slstack
 
-type AnyData interface{}
+type DataType interface{}
 
-type Stack []AnyData
+type Stack []DataType
 
 func (s *Stack) Size() int {
 	return len(*s)
@@ -12,11 +12,11 @@ func (s *Stack) IsEmpty() bool {
 	return len(*s) == 0
 }
 
-func (s *Stack) Push(d AnyData) {
+func (s *Stack) Push(d DataType) {
 	*s = append(*s, d)
 }
 
-func (s *Stack) Pop() AnyData {
+func (s *Stack) Pop() DataType {
 	if s.IsEmpty() {
 		return ""
 	} else {
@@ -27,7 +27,7 @@ func (s *Stack) Pop() AnyData {
 	}
 }
 
-func (s *Stack) Peek() AnyData {
+func (s *Stack) Peek() DataType {
 	if s.IsEmpty() {
 		return ""
 	}

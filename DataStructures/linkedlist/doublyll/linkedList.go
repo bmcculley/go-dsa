@@ -1,4 +1,4 @@
-package singlyll
+package doublyll
 
 import "fmt"
 
@@ -7,10 +7,12 @@ type DataType interface{}
 type node struct {
 	data DataType
 	next *node
+	prev *node
 }
 
 type LinkedList struct {
 	head *node
+	tail *node
 	length int
 }
 
@@ -25,23 +27,30 @@ func (l *LinkedList) Size() int {
 func (l *LinkedList) Add(d DataType) {
 	l.length++
 	if l.head == nil {
-		l.head = &node{d, nil}
+		l.head = &node{d, nil, nil}
+		l.tail = l.head
 	} else {
 		temp := l.head
+		prev := temp
 		for temp.next != nil {
+			prev = temp
 			temp = temp.next
 		}
-		temp.next = &node{d, nil}
+		temp.next = &node{d, nil, nil}
+		temp.next.prev = prev
+		l.tail = temp
 	}
 }
 
 func (l *LinkedList) Push(d DataType) {
 	l.length++
 	if l.head == nil {
-		l.head = &node{d, nil}
+		l.head = &node{d, nil, nil}
+		l.tail = l.head
 	} else {
-		temp := &node{d, nil}
+		temp := &node{d, nil, nil}
 		temp.next = l.head
+		l.head.prev = temp
 		l.head = temp
 	}
 }
@@ -52,29 +61,32 @@ func (l *LinkedList) Pop() DataType {
 	} else {
 		l.length--
 		temp := l.head.data
-		l.head = l.head.next
+		if l.head.next != nil {
+			l.head = l.head.next
+		}
+		l.head.prev = nil
 		return temp
 	}
 }
 
 func (l *LinkedList) Reverse() {
-	head := l.head.next
-	temp := l.head.next
-	prev := l.head
-	prev.next = nil
+	head := l.head
+	var prev *node
+	var curr *node
+	
 	keepGoing := true
 
 	for keepGoing {
-		temp = head
-		head = head.next
-		temp.next = prev
-		prev = temp
 		if head.next == nil {
 			keepGoing = false
 		}
+		curr = head
+		head = curr.next
+		curr.next = prev
+		curr.prev = head
+		prev = curr
 	}
-	head.next = temp
-	l.head = head
+	l.head = prev
 }
 
 func (l *LinkedList) PrintList() {
