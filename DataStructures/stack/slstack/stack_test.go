@@ -1,4 +1,4 @@
-package stack
+package slstack
 
 import "testing"
 

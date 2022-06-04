@@ -7,11 +7,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/bmcculley/go-dsa/DataStructures/stack/linkedlist"
+	"github.com/bmcculley/go-dsa/DataStructures/stack/llstack"
 )
 
 func main() {
-	var stack stack.Stack
+	var stack llstack.Stack
 	for i := 1; i < 10; i++ {
  		stack.Push(i)
  	}

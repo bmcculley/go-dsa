@@ -1,4 +1,4 @@
-package linkedlist
+package singlyll
 
 import "fmt"
 

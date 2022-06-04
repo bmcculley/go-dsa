@@ -1,4 +1,4 @@
-package stack
+package slstack
 
 type AnyData interface{}
 
