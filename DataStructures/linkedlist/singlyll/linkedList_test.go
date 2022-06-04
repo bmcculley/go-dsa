@@ -1,92 +1,49 @@
 package singlyll
 
-import "fmt"
+import "testing"
 
-type DataType interface{}
-
-type node struct {
-	data DataType
-	next *node
-}
-
-type LinkedList struct {
-	head *node
-	length int
-}
-
-func (l *LinkedList) Add(d DataType) {
-	l.length++
-	if l.head == nil {
-		l.head = &node{d, nil}
-	} else {
-		temp := l.head
-		for temp.next != nil {
-			temp = temp.next
-		}
-		temp.next = &node{d, nil}
+func TestLinkedListEmpty(t *testing.T) {
+	var linkedlist LinkedList
+	if linkedlist.IsEmpty() != true {
+		t.Errorf("Got false, want true")
 	}
 }
 
-func (l *LinkedList) Push(d DataType) {
-	l.length++
-	if l.head == nil {
-		l.head = &node{d, nil}
-	} else {
-		temp := &node{d, nil}
-		temp.next = l.head
-		l.head = temp
+func TestLinkedListNotEmpty(t *testing.T) {
+	var linkedlist LinkedList
+	linkedlist.Push(1)
+	if linkedlist.IsEmpty() != false {
+		t.Errorf("Got true, want false")
 	}
 }
 
-func (l *LinkedList) Pop() DataType {
-	if l.IsEmpty() {
-		return ""
-	} else {
-		l.length--
-		temp := l.head.data
-		l.head = l.head.next
-		return temp
+func TestLinkedListOperation(t *testing.T) {
+	var linkedlist LinkedList
+	for i := 1; i <= 10; i++ {
+		linkedlist.Push(i)
 	}
-}
-
-func (l *LinkedList) Reverse() {
-	head := l.head.next
-	temp := l.head.next
-	prev := l.head
-	prev.next = nil
-	keepGoing := true
-
-	for keepGoing {
-		temp = head
-		head = head.next
-		temp.next = prev
-		prev = temp
-		if head.next == nil {
-			keepGoing = false
-		}
-	}
-	head.next = temp
-	l.head = head
-}
-
-func (l *LinkedList) PrintList() {
-	temp := l.head
-	keepGoing := true
-
-	for keepGoing {
-		fmt.Println(temp.data)
-		if temp.next != nil {
-			temp = temp.next
-		} else {
-			keepGoing = false
+	
+	for i := 10; i > 0; i-- {
+		popped := linkedlist.Pop()
+		if popped != i {
+			t.Errorf("Got %d, want %d", popped, i)
 		}
 	}
 }
 
-func (l *LinkedList) IsEmpty() bool {
-	return l.length == 0
+func TestLinkedListSize(t *testing.T) {
+	var linkedlist LinkedList
+	size := linkedlist.Size()
+	if size != 0 {
+		t.Errorf("Got %d, want 0", size)
+	}
 }
 
-func (l *LinkedList) Size() int {
-	return l.length
+func TestLinkedListSizeOne(t *testing.T) {
+	var linkedlist LinkedList
+	linkedlist.Push(1)
+	size := linkedlist.Size()
+	if size != 1 {
+		t.Errorf("Got %d, want 1", size)
+	}
 }
